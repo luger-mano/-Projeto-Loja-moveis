@@ -1,7 +1,7 @@
 package com.v8tech.desafio_loja_moveis.controller;
 
-import com.v8tech.desafio_loja_moveis.dto.UsuarioDTO;
-import com.v8tech.desafio_loja_moveis.service.UsuarioService;
+import com.v8tech.desafio_loja_moveis.dto.UserDTO;
+import com.v8tech.desafio_loja_moveis.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,13 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class UsuarioControllerTest {
+public class UserControllerTest {
 
     @InjectMocks
-    private UsuarioController usuarioController;
+    private UserController userController;
 
     @Mock
-    private UsuarioService usuarioService;
+    private UserService userService;
 
     @BeforeEach
     void setUp() {
@@ -31,57 +31,57 @@ public class UsuarioControllerTest {
     }
 
     @Test
-    void testCreateUsuario() {
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setNome("Teste");
+    void testCreateUser() {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setNome("Teste");
 
-        when(usuarioService.saveUsuario(any(UsuarioDTO.class))).thenReturn(usuarioDTO);
+        when(userService.saveUsuario(any(UserDTO.class))).thenReturn(userDTO);
 
-        ResponseEntity<UsuarioDTO> response = usuarioController.createUsuario(usuarioDTO);
+        ResponseEntity<UserDTO> response = userController.createUsuario(userDTO);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals("Teste", Objects.requireNonNull(response.getBody()).getNome());
     }
 
     @Test
-    void testGetAllUsuarios() {
-        List<UsuarioDTO> usuarioDTOList = List.of(new UsuarioDTO(), new UsuarioDTO());
-        when(usuarioService.getAllUsuarios()).thenReturn(usuarioDTOList);
+    void testGetAllUser() {
+        List<UserDTO> userDTOList = List.of(new UserDTO(), new UserDTO());
+        when(userService.getAllUsers()).thenReturn(userDTOList);
 
-        List<UsuarioDTO> response = usuarioController.getAllUsuarios();
+        List<UserDTO> response = userController.getAllUsers();
         assertEquals(2, response.size());
-        verify(usuarioService, times(1)).getAllUsuarios();
+        verify(userService, times(1)).getAllUsers();
     }
 
     @Test
-    void testGetUsuarioById() {
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(1L);
+    void testGetUserById() {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1L);
 
-        when(usuarioService.getUsuarioById(1L)).thenReturn(Optional.of(usuarioDTO));
+        when(userService.getUserById(1L)).thenReturn(Optional.of(userDTO));
 
-        ResponseEntity<UsuarioDTO> response = usuarioController.getUsuarioById(1L);
+        ResponseEntity<UserDTO> response = userController.getUserById(1L);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(1L, Objects.requireNonNull(response.getBody()).getId());
     }
 
     @Test
-    void testUpdateUsuario() {
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(1L);
-        usuarioDTO.setNome("Teste");
+    void testUpdateUser() {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1L);
+        userDTO.setNome("Teste");
 
-        when(usuarioService.updateUsuario(eq(1L), any(UsuarioDTO.class))).thenReturn(usuarioDTO);
+        when(userService.updateUser(eq(1L), any(UserDTO.class))).thenReturn(userDTO);
 
-        ResponseEntity<UsuarioDTO> response = usuarioController.updateUsuario(1L, usuarioDTO);
+        ResponseEntity<UserDTO> response = userController.updateUser(1L, userDTO);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals("Teste", Objects.requireNonNull(response.getBody()).getNome());
     }
 
     @Test
-    void testDeleteUsuario() {
-        doNothing().when(usuarioService).deleteUsuario(1L);
+    void testDeleteUser() {
+        doNothing().when(userService).deleteUser(1L);
 
-        ResponseEntity<Void> response = usuarioController.deleteUsuario(1L);
+        ResponseEntity<Void> response = userController.deleteUser(1L);
         assertEquals(204, response.getStatusCodeValue());
     }
 }

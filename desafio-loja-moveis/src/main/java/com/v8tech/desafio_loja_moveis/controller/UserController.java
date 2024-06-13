@@ -1,7 +1,7 @@
 package com.v8tech.desafio_loja_moveis.controller;
 
-import com.v8tech.desafio_loja_moveis.dto.UsuarioDTO;
-import com.v8tech.desafio_loja_moveis.service.UsuarioService;
+import com.v8tech.desafio_loja_moveis.dto.UserDTO;
+import com.v8tech.desafio_loja_moveis.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,36 +10,36 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/usuario")
-public class UsuarioController {
+public class UserController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UserService userService;
 
     @PostMapping("/cadastrar-usuario")
-    public ResponseEntity<UsuarioDTO> createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-        return ResponseEntity.ok(usuarioService.saveUsuario(usuarioDTO));
+    public ResponseEntity<UserDTO> createUsuario(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.saveUsuario(userDTO));
     }
 
     @GetMapping
-    public List<UsuarioDTO> getAllUsuarios() {
-        return usuarioService.getAllUsuarios();
+    public List<UserDTO> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Long id) {
-        return usuarioService.getUsuarioById(id)
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+        return userService.getUserById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> updateUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
-        return ResponseEntity.ok(usuarioService.updateUsuario(id, usuarioDTO));
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.updateUser(id, userDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
-        usuarioService.deleteUsuario(id);
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,8 +1,8 @@
 package com.v8tech.desafio_loja_moveis.service;
 
-import com.v8tech.desafio_loja_moveis.dto.UsuarioDTO;
-import com.v8tech.desafio_loja_moveis.entity.Usuario;
-import com.v8tech.desafio_loja_moveis.repository.UsuarioRepository;
+import com.v8tech.desafio_loja_moveis.dto.UserDTO;
+import com.v8tech.desafio_loja_moveis.entity.User;
+import com.v8tech.desafio_loja_moveis.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,67 +11,72 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UsuarioService {
+public class UserService {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UserRepository userRepository;
 
-    public UsuarioDTO saveUsuario(UsuarioDTO usuarioDTO) {
-        Usuario usuario = convertToEntity(usuarioDTO);
-        Usuario savedUsuario = usuarioRepository.save(usuario);
-        return convertToDTO(savedUsuario);
+    public UserDTO saveUsuario(UserDTO userDTO) {
+        User user = convertToEntity(userDTO);
+        User savedUser = userRepository.save(user);
+        return convertToDTO(savedUser);
     }
 
-    public List<UsuarioDTO> getAllUsuarios() {
-        return usuarioRepository.findByAtivo(true).stream()
+    public List<UserDTO> getAllUsers() {
+        return userRepository.findByAtivo(true).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
-    public Optional<UsuarioDTO> getUsuarioById(Long id) {
-        return usuarioRepository.findByIdAndAtivo(id, true)
+    public Optional<UserDTO> getUserById(Long id) {
+        return userRepository.findByIdAndAtivo(id, true)
                 .map(this::convertToDTO);
     }
 
-    public UsuarioDTO updateUsuario(Long id, UsuarioDTO usuarioDTO) {
-        Usuario usuario = usuarioRepository.findByIdAndAtivo(id, true)
+    public UserDTO updateUser(Long id, UserDTO userDTO) {
+        User user = userRepository.findByIdAndAtivo(id, true)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        usuario.setNome(usuarioDTO.getNome());
-        usuario.setLogin(usuarioDTO.getLogin());
-        usuario.setSenha(usuarioDTO.getSenha());
-        usuario.setAtivo(usuarioDTO.getAtivo());
+        user.setNome(userDTO.getNome());
+        user.setLogin(userDTO.getLogin());
+        user.setSenha(userDTO.getSenha());
+        user.setAtivo(userDTO.getAtivo());
 
-        Usuario updatedUsuario = usuarioRepository.save(usuario);
-        return convertToDTO(updatedUsuario);
+        User updatedUser = userRepository.save(user);
+        return convertToDTO(updatedUser);
     }
 
-    public void deleteUsuario(Long id) {
-        Usuario usuario = usuarioRepository.findByIdAndAtivo(id, true)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-        usuario.setAtivo(false);
-        usuarioRepository.save(usuario);
+    public void deleteUser(Long id) {
+        Optional<User> optionalUsuario = userRepository.findByIdAndAtivo(id, true);
+        if (optionalUsuario.isPresent()) {
+            User user = optionalUsuario.get();
+            user.setAtivo(false);
+            userRepository.save(user);
+        } else {
+            throw new RuntimeException("Usuário não encontrado");
+        }
     }
 
 
 
-    private UsuarioDTO convertToDTO(Usuario usuario) {
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
-        usuarioDTO.setId(usuario.getId());
-        usuarioDTO.setNome(usuario.getNome());
-        usuarioDTO.setLogin(usuario.getLogin());
-        usuarioDTO.setSenha(usuario.getSenha());
-        usuarioDTO.setAtivo(usuario.getAtivo());
-        return usuarioDTO;
+
+    private UserDTO convertToDTO(User user) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setNome(user.getNome());
+        userDTO.setLogin(user.getLogin());
+        userDTO.setSenha(user.getSenha());
+        userDTO.setAtivo(user.getAtivo());
+        return userDTO;
     }
 
-    private Usuario convertToEntity(UsuarioDTO usuarioDTO) {
-        Usuario usuario = new Usuario();
-        usuario.setId(usuarioDTO.getId());
-        usuario.setNome(usuarioDTO.getNome());
-        usuario.setLogin(usuarioDTO.getLogin());
-        usuario.setSenha(usuarioDTO.getSenha());
-        usuario.setAtivo(usuarioDTO.getAtivo());
-        return usuario;
+    private User convertToEntity(UserDTO userDTO) {
+        User user = new User();
+        user.setId(userDTO.getId());
+        user.setNome(userDTO.getNome());
+        user.setLogin(userDTO.getLogin());
+        user.setSenha(userDTO.getSenha());
+        user.setAtivo(userDTO.getAtivo());
+        return user;
     }
 }
