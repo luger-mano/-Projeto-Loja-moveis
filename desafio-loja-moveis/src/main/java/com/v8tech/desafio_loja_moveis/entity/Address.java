@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 public class Address {
 
     @Id
+    @Column(name = "adressId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)

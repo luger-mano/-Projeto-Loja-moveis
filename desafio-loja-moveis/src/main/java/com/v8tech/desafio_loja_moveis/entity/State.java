@@ -5,8 +5,10 @@ import jakarta.persistence.*;
 @Entity
 public class State {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    @Id
+    @Column(name = "stateId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
