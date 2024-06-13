@@ -16,16 +16,9 @@ public class Usuario {
     private String nome;
 
     @Column(unique = true, nullable = false)
-    private String cpf;
+    private String login;
 
-    @ManyToOne
-    @JoinColumn(name = "endereco_fk")
-    private Endereco endereco;
-
-    @ManyToOne
-    @JoinColumn(name = "contato_fk")
-    private Contato contato;
+    private String senha;
 
     private Boolean ativo;
 }
-

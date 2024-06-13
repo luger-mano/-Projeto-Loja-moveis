@@ -1,8 +1,6 @@
-package com.v8tech.desafio_loja_moveis.controllerTest;
+package com.v8tech.desafio_loja_moveis.controller;
 
-
-import com.v8tech.desafio_loja_moveis.controller.UsuarioController;
-import com.v8tech.desafio_loja_moveis.entity.Usuario;
+import com.v8tech.desafio_loja_moveis.dto.UsuarioDTO;
 import com.v8tech.desafio_loja_moveis.service.UsuarioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +9,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -32,42 +32,47 @@ public class UsuarioControllerTest {
 
     @Test
     void testCreateUsuario() {
-        Usuario usuario = new Usuario();
-        usuario.setNome("Teste");
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setNome("Teste");
 
-        when(usuarioService.saveUsuario(any(Usuario.class))).thenReturn(usuario);
+        when(usuarioService.saveUsuario(any(UsuarioDTO.class))).thenReturn(usuarioDTO);
 
-        ResponseEntity<Usuario> response = usuarioController.createUsuario(usuario);
+        ResponseEntity<UsuarioDTO> response = usuarioController.createUsuario(usuarioDTO);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals("Teste", Objects.requireNonNull(response.getBody()).getNome());
     }
 
     @Test
     void testGetAllUsuarios() {
-        usuarioController.getAllUsuarios();
+        List<UsuarioDTO> usuarioDTOList = List.of(new UsuarioDTO(), new UsuarioDTO());
+        when(usuarioService.getAllUsuarios()).thenReturn(usuarioDTOList);
+
+        List<UsuarioDTO> response = usuarioController.getAllUsuarios();
+        assertEquals(2, response.size());
         verify(usuarioService, times(1)).getAllUsuarios();
     }
 
     @Test
     void testGetUsuarioById() {
-        Usuario usuario = new Usuario();
-        usuario.setId(1L);
-        when(usuarioService.getUsuarioById(1L)).thenReturn(Optional.of(usuario));
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(1L);
 
-        ResponseEntity<Usuario> response = usuarioController.getUsuarioById(1L);
+        when(usuarioService.getUsuarioById(1L)).thenReturn(Optional.of(usuarioDTO));
+
+        ResponseEntity<UsuarioDTO> response = usuarioController.getUsuarioById(1L);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(1L, Objects.requireNonNull(response.getBody()).getId());
     }
 
     @Test
     void testUpdateUsuario() {
-        Usuario usuario = new Usuario();
-        usuario.setId(1L);
-        usuario.setNome("Teste");
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setId(1L);
+        usuarioDTO.setNome("Teste");
 
-        when(usuarioService.updateUsuario(eq(1L), any(Usuario.class))).thenReturn(usuario);
+        when(usuarioService.updateUsuario(eq(1L), any(UsuarioDTO.class))).thenReturn(usuarioDTO);
 
-        ResponseEntity<Usuario> response = usuarioController.updateUsuario(1L, usuario);
+        ResponseEntity<UsuarioDTO> response = usuarioController.updateUsuario(1L, usuarioDTO);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals("Teste", Objects.requireNonNull(response.getBody()).getNome());
     }

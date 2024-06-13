@@ -1,13 +1,9 @@
 package com.v8tech.desafio_loja_moveis.controller;
 
-import com.v8tech.desafio_loja_moveis.entity.Usuario;
+import com.v8tech.desafio_loja_moveis.dto.UsuarioDTO;
 import com.v8tech.desafio_loja_moveis.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,25 +16,25 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping("/cadastrar-usuario")
-    public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.saveUsuario(usuario));
+    public ResponseEntity<UsuarioDTO> createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+        return ResponseEntity.ok(usuarioService.saveUsuario(usuarioDTO));
     }
 
     @GetMapping
-    public List<Usuario> getAllUsuarios() {
+    public List<UsuarioDTO> getAllUsuarios() {
         return usuarioService.getAllUsuarios();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
+    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Long id) {
         return usuarioService.getUsuarioById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody Usuario usuarioDetails) {
-        return ResponseEntity.ok(usuarioService.updateUsuario(id, usuarioDetails));
+    public ResponseEntity<UsuarioDTO> updateUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
+        return ResponseEntity.ok(usuarioService.updateUsuario(id, usuarioDTO));
     }
 
     @DeleteMapping("/{id}")
@@ -47,4 +43,3 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 }
-
