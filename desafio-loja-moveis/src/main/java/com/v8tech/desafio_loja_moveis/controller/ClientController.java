@@ -1,7 +1,7 @@
 package com.v8tech.desafio_loja_moveis.controller;
 
-import com.v8tech.desafio_loja_moveis.domain.ClientRepository;
-import com.v8tech.desafio_loja_moveis.domain.Cliente;
+import com.v8tech.desafio_loja_moveis.repository.ClientRepository;
+import com.v8tech.desafio_loja_moveis.entity.Cliente;
 import com.v8tech.desafio_loja_moveis.dto.ClientDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/cliente")

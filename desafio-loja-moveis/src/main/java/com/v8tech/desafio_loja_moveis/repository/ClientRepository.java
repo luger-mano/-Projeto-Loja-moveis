@@ -1,10 +1,8 @@
-package com.v8tech.desafio_loja_moveis.domain;
+package com.v8tech.desafio_loja_moveis.repository;
 
-import ch.qos.logback.core.net.server.Client;
+import com.v8tech.desafio_loja_moveis.entity.Cliente;
 import org.hibernate.query.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.awt.print.Pageable;
 
 public interface ClientRepository extends JpaRepository<Cliente, Long> {
 }

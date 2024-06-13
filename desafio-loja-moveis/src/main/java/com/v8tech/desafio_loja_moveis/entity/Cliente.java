@@ -1,4 +1,4 @@
-package com.v8tech.desafio_loja_moveis.domain;
+package com.v8tech.desafio_loja_moveis.entity;
 
 import com.v8tech.desafio_loja_moveis.dto.ClientDTO;
 import jakarta.persistence.*;
