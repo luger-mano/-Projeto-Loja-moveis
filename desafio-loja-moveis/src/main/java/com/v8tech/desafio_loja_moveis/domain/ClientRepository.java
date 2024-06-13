@@ -6,7 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.awt.print.Pageable;
 
-public interface ClientRepository extends JpaRepository<Client, Long> {
-
-    Page<Client> findAllByAtivoTrue(Pageable pageable);
+public interface ClientRepository extends JpaRepository<Cliente, Long> {
 }

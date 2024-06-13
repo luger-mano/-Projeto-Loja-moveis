@@ -6,17 +6,17 @@ import jakarta.persistence.*;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "logradouro")
+    @Column(nullable = false)
     private String street;
+    @Column(nullable = false, unique = true)
     private String cep;
-    @Column(name = "bairro")
+    @Column(nullable = false)
     private String neighborhood;
-    @Column(name = "cidade")
-    private String city;
-    @Enumerated(EnumType.STRING)
-    private State UF;
+    @ManyToOne
+    private City city;
+
 
 
 }

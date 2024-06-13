@@ -15,7 +15,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("cliente")
+@RequestMapping("/cliente")
 public class ClientController {
 
     @Autowired
@@ -23,13 +23,12 @@ public class ClientController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity register(@RequestBody @Valid ClientDTO data, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity register(@RequestBody @Valid ClientDTO data) {
         var client = new Cliente(data);
         repository.save(client);
 
-        var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(client.getCpf()).toUri();
 
-        return ResponseEntity.created(uri).body(data);
+        return ResponseEntity.ok().body(data);
     }
 
 
